@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Irfan Khalid — Pakistani musician in Stockholm. Stream on Spotify, YouTube, Apple Music and more.">
+<title>Irfan Khalid</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;500&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ink:         #080705;
+  --obsidian:    #0F0D0A;
+  --charcoal:    #1A1710;
+  --smoke:       #2C2820;
+  --gold:        #D4A843;
+  --gold-mid:    #A87D32;
+  --gold-dim:    #6B5422;
+  --gold-ghost:  #4A3818;
+  --cream:       #F2EBD9;
+  --stone:       #B8A898;
+  --ash:         #7A6E62;
+  --ember:       #8B3A1A;
+}
+
+html, body {
+  min-height: 100%;
+  background: var(--ink);
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--cream);
+  overflow-x: hidden;
+}
+
+/* Grain */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* Ambient glow */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 700px 500px at 50% 0%, rgba(212,168,67,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 300px at 80% 80%, rgba(139,58,26,0.04) 0%, transparent 60%);
+}
+
+/* PAGE WRAPPER */
+.page {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center;
+  padding: 60px 24px 80px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* TOP RULE */
+.top-rule {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, transparent, var(--gold-dim));
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeDown 1s ease forwards 0.2s;
+}
+
+/* HEADER */
+header {
+  text-align: center;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeDown 1s ease forwards 0.4s;
+}
+
+.artist-name {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(28px, 8vw, 42px);
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  color: var(--cream);
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+
+.artist-name span { color: var(--gold); }
+
+.header-rule {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold-mid), transparent);
+  margin: 0 auto 14px;
+}
+
+.artist-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(14px, 4vw, 17px);
+  font-weight: 300;
+  color: var(--stone);
+  letter-spacing: 0.05em;
+  line-height: 1.5;
+}
+
+/* SECTION LABELS */
+.section-label {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  font-size: 9px;
+  letter-spacing: 0.5em;
+  color: var(--gold-mid);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 16px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.section-label::before,
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold-ghost));
+}
+
+.section-label::after {
+  background: linear-gradient(to left, transparent, var(--gold-ghost));
+}
+
+/* LINK BLOCKS */
+.links-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp 0.9s ease forwards;
+}
+
+.links-group.g1 { animation-delay: 0.6s; }
+.links-group.g2 { animation-delay: 0.8s; }
+.links-group.g3 { animation-delay: 1.0s; }
+.links-group.g4 { animation-delay: 1.2s; }
+
+/* Individual link card */
+.link-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--obsidian);
+  border: 1px solid var(--gold-ghost);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s ease, background 0.25s ease;
+  cursor: pointer;
+}
+
+.link-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--gold);
+  transform: scaleY(0);
+  transition: transform 0.25s ease;
+  transform-origin: bottom;
+}
+
+.link-card:hover {
+  border-color: var(--gold-mid);
+  background: var(--charcoal);
+}
+
+.link-card:hover::before { transform: scaleY(1); }
+
+/* Featured card — slightly elevated */
+.link-card.featured {
+  border-color: var(--gold-dim);
+  background: linear-gradient(135deg, var(--charcoal) 0%, var(--obsidian) 100%);
+  padding: 20px 20px;
+}
+
+.link-card.featured::before { background: var(--gold); }
+
+/* Icon container */
+.link-icon {
+  width: 36px; height: 36px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--smoke);
+  transition: background 0.25s ease;
+}
+
+.link-card:hover .link-icon { background: var(--gold-ghost); }
+
+.link-icon svg {
+  width: 18px; height: 18px;
+  fill: var(--gold);
+}
+
+/* Text */
+.link-text { flex: 1; min-width: 0; }
+
+.link-title {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  color: var(--cream);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.link-sub {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--stone);
+  display: block;
+}
+
+/* Arrow */
+.link-arrow {
+  width: 16px; height: 16px;
+  flex-shrink: 0;
+  opacity: 0.4;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.link-card:hover .link-arrow {
+  opacity: 0.8;
+  transform: translateX(3px);
+}
+
+.link-arrow svg { width: 100%; height: 100%; }
+
+/* NEW RELEASE badge */
+.badge {
+  position: absolute;
+  top: -1px; right: 16px;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  font-size: 7px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+}
+
+/* FOOTER */
+footer {
+  margin-top: auto;
+  padding-top: 48px;
+  text-align: center;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards 1.4s;
+}
+
+.footer-rule {
+  width: 40px; height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+  margin: 0 auto 20px;
+}
+
+.footer-name {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.footer-copy {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 200;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--ash);
+}
+
+/* ANIMATIONS */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile fine-tuning */
+@media (max-width: 360px) {
+  .page { padding: 48px 16px 64px; }
+  .artist-name { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="top-rule"></div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="artist-name">IRFAN <span>KHALID</span></div>
+    <div class="header-rule"></div>
+    <div class="artist-tagline">Pakistani musician in Stockholm.<br>Covers that mean something. Originals that took years.</div>
+  </header>
+
+  <!-- STREAM -->
+  <div class="section-label">Stream</div>
+  <div class="links-group g1">
+
+    <a class="link-card featured" href="https://open.spotify.com/artist/6O8G5RvFQepLJPlVnOiNAl" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      </div>
+      <div class="link-text">
+        <span class="link-title">Spotify</span>
+        <span class="link-sub">Stream all songs · Follow the artist</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://music.apple.com/us/artist/irfan-khalid/1557143773" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" fill="#D4A843" xmlns="http://www.w3.org/2000/svg"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.459 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Apple Music</span>
+        <span class="link-sub">Listen on Apple Music</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+  </div>
+
+  <!-- LATEST RELEASE -->
+  <div class="section-label">Latest Release</div>
+  <div class="links-group g2">
+    <a class="link-card featured" href="https://open.spotify.com/track/5ctcIFeA9dMpRNeMaB8R51" target="_blank" rel="noopener">
+      <div class="badge">New</div>
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Rull Gaya</span>
+        <span class="link-sub">Original · Play on Spotify</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+  </div>
+
+  <!-- OST COVERS -->
+  <div class="section-label">OST Covers</div>
+  <div class="links-group g2">
+
+    <a class="link-card" href="https://open.spotify.com/track/6KhwlST8wvhVoIDmIyEAsK" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Tera Mera Hai Pyar Amar</span>
+        <span class="link-sub">Orig. Ahmed Jahanzeb · Cover</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://open.spotify.com/track/57tzrog7ITOWq5L4Jciws1" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Hum Kahan Ke Sachay Thay</span>
+        <span class="link-sub">Orig. Yashal Shahid · Cover</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://open.spotify.com/track/62ukB3Vz0xNHri37k4y3WS" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Tere Bina Rogi Hoye</span>
+        <span class="link-sub">Orig. Nusrat Fateh Ali Khan &amp; Noor Jahan · Cover</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+
+    <a class="link-card" href="https://open.spotify.com/album/46gzv9KLPowymeLqvw3gXN" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Kisi Roz Milo</span>
+        <span class="link-sub">Orig. Rahat Fateh Ali Khan · Cover</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://youtu.be/yrGghKY2vtM" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Tumhara Aur Mera Naam</span>
+        <span class="link-sub">Orig. Junaid Jamshed · Cover</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://youtu.be/HpaqeVoCy8w" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Sun Charkhe Di Mithi Mithi</span>
+        <span class="link-sub">Orig. Nusrat Fateh Ali Khan · Cover</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://youtu.be/Xm5oYW0TvCM" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Chura Liya Hai Tumne</span>
+        <span class="link-sub">Orig. Asha Bhosle &amp; Mohammad Rafi · Cover</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://youtu.be/gGT2KM1rF2A" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Channa Mereya</span>
+        <span class="link-sub">Orig. Arijit Singh · Cover</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://youtu.be/qoId5ARLAE4" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Yeh Kya Hua Kaise Hua</span>
+        <span class="link-sub">Orig. Kishore Kumar · Cover</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+  </div>
+
+  <!-- ORIGINALS -->
+  <div class="section-label">Originals</div>
+  <div class="links-group g3">
+
+    <a class="link-card" href="https://open.spotify.com/track/571oP8e9n9lITcZ7cck1u6" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Tere Liye</span>
+        <span class="link-sub">Original</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://open.spotify.com/track/6jOqMpTeYEWDD1ETterv69" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Maan Ja</span>
+        <span class="link-sub">Original</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://open.spotify.com/track/150lEKYz1mPJ7UGeUMPhV3" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Zindagi Tu Meri</span>
+        <span class="link-sub">Original</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://open.spotify.com/album/14Najsf4OvpKvZbTz1WpDg" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Gulshan e Hasti</span>
+        <span class="link-sub">Original</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://open.spotify.com/track/11iaV0ba7kTvd9dPgDqtxh" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Nazdeekiyan</span>
+        <span class="link-sub">Original</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://open.spotify.com/album/2hbgWvH65ujG3hkNMqhbp1" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Yakeen</span>
+        <span class="link-sub">Original</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://open.spotify.com/album/78IdjqrGxfy08mBAO25dvI" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Jaadu</span>
+        <span class="link-sub">Original</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://open.spotify.com/album/0ebWqQwCM4dN2ivkEphpKw" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Laapata</span>
+        <span class="link-sub">Original</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://open.spotify.com/album/3ROXbO1FlJUkOgik5I7pdM" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Sard Sa Haath</span>
+        <span class="link-sub">Original</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://open.spotify.com/track/7dRKfcIdnvRlQblyByk3EK" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Rung Bhare</span>
+        <span class="link-sub">Original</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://open.spotify.com/album/6FTpzFsvqZomNR9MnVQYTi" target="_blank" rel="noopener">
+      <div class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D4A843"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+      <div class="link-text">
+        <span class="link-title">Rung Bhare 2.0</span>
+        <span class="link-sub">Original · Reimagined</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+  </div>
+
+  <!-- WATCH -->
+  <div class="section-label">Watch</div>
+  <div class="links-group g3">
+
+    <a class="link-card" href="https://www.youtube.com/c/IrfanKhalid" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+      </div>
+      <div class="link-text">
+        <span class="link-title">YouTube</span>
+        <span class="link-sub">@irfankhalid · Full catalog</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+  </div>
+
+  <!-- FOLLOW -->
+  <div class="section-label">Follow</div>
+  <div class="links-group g4">
+
+    <a class="link-card" href="https://instagram.com/irfankhalid.official" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      </div>
+      <div class="link-text">
+        <span class="link-title">Instagram</span>
+        <span class="link-sub">@irfankhalid.official</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://www.tiktok.com/@irfankhalidmusic" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.27 8.27 0 004.84 1.56V6.79a4.85 4.85 0 01-1.07-.1z"/></svg>
+      </div>
+      <div class="link-text">
+        <span class="link-title">TikTok</span>
+        <span class="link-sub">@irfankhalidmusic</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://facebook.com/Irfankhalidofficial" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </div>
+      <div class="link-text">
+        <span class="link-title">Facebook</span>
+        <span class="link-sub">Irfan Khalid Official</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card" href="https://soundcloud.com/irfankhalid1" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M1.175 12.225c-.017 0-.034.002-.051.004l-.012.002c-.091.01-.175.05-.237.112a.388.388 0 00-.112.262l-.28 2.603.28 2.578c0 .198.159.358.357.358a.36.36 0 00.358-.358l.316-2.578-.316-2.603a.358.358 0 00-.303-.38zm1.67-.966a.5.5 0 00-.5.5l-.315 3.069.315 3.03a.5.5 0 001 0l.355-3.03-.355-3.069a.5.5 0 00-.5-.5zm1.77-.424a.614.614 0 00-.614.614l-.29 3.493.29 3.43a.614.614 0 001.228 0l.327-3.43-.327-3.493a.614.614 0 00-.614-.614zm1.8-.17a.726.726 0 00-.727.727l-.267 3.663.267 3.584a.727.727 0 001.454 0l.3-3.584-.3-3.663a.727.727 0 00-.727-.727zm1.81.17a.84.84 0 00-.84.84l-.244 3.493.244 3.39a.84.84 0 001.68 0l.275-3.39-.275-3.493a.84.84 0 00-.84-.84zm1.83-.337a.953.953 0 00-.953.953l-.22 3.83.22 3.707a.953.953 0 001.906 0l.249-3.707-.249-3.83a.953.953 0 00-.953-.953zm1.844-.592a1.066 1.066 0 00-1.066 1.066l-.198 4.422.198 3.623a1.066 1.066 0 002.132 0l.224-3.623-.224-4.422a1.066 1.066 0 00-1.066-1.066zm1.857.74a1.18 1.18 0 00-1.18 1.18l-.175 3.682.175 3.54a1.18 1.18 0 002.36 0l.198-3.54-.198-3.682a1.18 1.18 0 00-1.18-1.18zm4.537-1.884c-.31 0-.605.06-.876.167-.181-2.39-2.162-4.26-4.6-4.26-1.29 0-2.46.504-3.328 1.325-.332.31-.42.625-.422.936v8.34c.003.324.27.588.597.595h8.629a2.744 2.744 0 002.744-2.744 2.744 2.744 0 00-2.744-2.36z"/></svg>
+      </div>
+      <div class="link-text">
+        <span class="link-title">SoundCloud</span>
+        <span class="link-sub">irfankhalid1</span>
+      </div>
+      <div class="link-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#B8A898" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-rule"></div>
+    <div class="footer-name">Irfan Khalid</div>
+    <div class="footer-copy">Pakistani musician · Stockholm · Since always</div>
+  </footer>
+
+</div>
+</body>
+</html>
